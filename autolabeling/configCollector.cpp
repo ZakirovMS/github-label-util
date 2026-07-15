@@ -27,47 +27,60 @@ data::configCollector::configCollector(std::ifstream & ifs)
   }
 }
 
-const std::vector< data::Student > & getStudents()
+const std::vector< data::Student > & data::configCollector::getStudents()
+{
+  return students_;
+}
+
+const std::vector< data::Dict > & data::configCollector::getLabLabels()
+{
+  return labLabels_;
+}
+
+const std::string & data::configCollector::getLabLabel(std::string lab)
+{
+  for (size_t i = 0; i < labLabels_.size(); ++i)
+  {
+    if (labLabels_[i].first == lab)
+    {
+      return labLabels_[i].second;
+    }
+  }
+
+  return badIssueLabel_;
+}
+
+const std::vector< data::Dict > & data::configCollector::getGroupLabels()
+{
+  return groupLabels_;
+}
+
+const std::string & data::configCollector::getBadPRLabel()
+{
+  return badPRLabel_;
+}
+
+const std::string & data::configCollector::getBadBranchLabel()
+{
+  return badBranchLabel_;
+}
+
+const std::string & data::configCollector::getBadIssueLabel()
+{
+  return badIssueLabel_;
+}
+
+const std::string & data::configCollector::getFineLabel()
+{
+  return fineLabel_;
+}
+
+const data::namingRule & data::configCollector::getNamingPRRule()
 {
 
 }
 
-const std::vector< Dict > & getLabLabels()
-{
-
-}
-
-const std::vector< Dict > & getGroupLabels()
-{
-
-}
-
-const std::string & getBadPRLabel()
-{
-
-}
-
-const std::string & getBadBranchLabel()
-{
-
-}
-
-const std::string & getBadIssueLabel()
-{
-
-}
-
-const std::string & getFineLabel()
-{
-
-}
-
-const namingRule & getNamingPRRule()
-{
-
-}
-
-const namingRule & getNamingBranchRule()
+const data::namingRule & data::configCollector::getNamingBranchRule()
 {
 
 }

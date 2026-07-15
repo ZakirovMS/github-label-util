@@ -29,6 +29,16 @@ namespace data
   {
   public:
     configCollector(std::ifstream & ifs);
+    const std::vector< Student > & getStudents();
+    const std::vector< Dict > & getLabLabels();
+    const std::string & getLabLabel(std::string lab);
+    const std::vector< Dict > & getGroupLabels();
+    const std::string & getBadPRLabel();
+    const std::string & getBadBranchLabel();
+    const std::string & getBadIssueLabel();
+    const std::string & getFineLabel();
+    const namingRule & getNamingPRRule();
+    const namingRule & getNamingBranchRule();
   private:
     std::vector< Student > students_;
     std::vector< Dict > labLabels_;
