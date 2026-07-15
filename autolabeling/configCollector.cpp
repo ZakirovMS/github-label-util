@@ -49,6 +49,26 @@ const std::string & data::configCollector::getLabLabel(std::string lab) const
   return badIssueLabel_;
 }
 
+size_t data::configCollector::getLabCount() const
+{
+  return labCount_;
+}
+
+const std::string & data::configCollector::getTokenGitHub() const
+{
+  return tokenGitHub_;
+}
+
+const std::string & data::configCollector::getOwnerGitHub() const
+{
+  return ownerGitHub_;
+}
+
+const std::string & data::configCollector::getReposGitHub() const
+{
+  return reposGitHub_;
+}
+
 const std::string & data::configCollector::getBadPRLabel() const
 {
   return badPRLabel_;
@@ -94,6 +114,10 @@ void data::configCollector::readSpecialLabel(std::ifstream & ifs)
   std::string stub;
   std::getline(ifs, stub, ',');
   labCount_ = std::stoull(stub);
+
+  std::getline(ifs, tokenGitHub_, ',');
+  std::getline(ifs, ownerGitHub_, ',');
+  std::getline(ifs, reposGitHub_, ',');
 
   std::getline(ifs, badPRLabel_, ',');
   std::getline(ifs, badBranchLabel_, ',');

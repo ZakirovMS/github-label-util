@@ -32,8 +32,11 @@ namespace data
     configCollector(std::ifstream & ifs);
     const std::vector< Student > & getStudents() const;
     const std::vector< Dict > & getLabLabels() const;
-    size_t getLabCount() const;
     const std::string & getLabLabel(std::string lab) const;
+    size_t getLabCount() const;
+    const std::string & getTokenGitHub() const;
+    const std::string & getOwnerGitHub() const;
+    const std::string & getReposGitHub() const;
     const std::string & getBadPRLabel() const;
     const std::string & getBadBranchLabel() const;
     const std::string & getBadIssueLabel() const;
@@ -45,6 +48,10 @@ namespace data
     std::vector< Dict > labLabels_;
 
     size_t labCount_;
+
+    std::string tokenGitHub_;
+    std::string ownerGitHub_;
+    std::string reposGitHub_;
 
     std::string badPRLabel_;
     std::string badBranchLabel_;
