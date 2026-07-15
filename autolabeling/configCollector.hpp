@@ -15,11 +15,11 @@ namespace data
     std::string groupLabel;
   };
 
-  class namingRules
+  class namingRule
   {
   public:
-    namingRules(std::string & rule);
-    void showRule();
+    void setRule(const std::string & rule);
+    const std::string & getRule();
   private:
     std::string rule_;
     //todo
@@ -28,7 +28,7 @@ namespace data
   class configCollector
   {
   public:
-
+    configCollector(std::ifstream & ifs);
   private:
     std::vector< Student > students_;
     std::vector< Dict > labLabels_;
@@ -39,12 +39,13 @@ namespace data
     std::string badIssueLabel_;
     std::string fineLabel_;
 
-    namingRules namingPR_;
-    namingRules namingBranch_;
+    namingRule namingPR_;
+    namingRule namingBranch_;
 
-    void readStudents(std::ifstream & ifs);
-    void readLabels(std::ifstream & ifs);
-    void readNamingRules(std::ifstream & ifs);
+    void readStudent(std::ifstream & ifs);
+    void readSpecialLabel(std::ifstream & ifs);
+    void readLabLabel(std::ifstream & ifs);
+    void readNamingRule(std::ifstream & ifs);
   };
 }
 
