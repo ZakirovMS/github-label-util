@@ -17,7 +17,11 @@ namespace data
 
   class namingRules
   {
-    namingRules(std::string rule);
+  public:
+    namingRules(std::string & rule);
+    void showRule();
+  private:
+    std::string rule_;
     //todo
   };
 
@@ -26,19 +30,21 @@ namespace data
   public:
 
   private:
-    std::vector< Student > students;
-    std::vector< Dict > labLabels;
-    std::vector< Dict > groupLabels;
-    std::string badPRLabel;
-    std::string badBranchLabel;
-    std::string badIssueLabel;
-    std::string fineLabel;
-    namingRules namingPR;
-    namingRules namingBranch;
+    std::vector< Student > students_;
+    std::vector< Dict > labLabels_;
+    std::vector< Dict > groupLabels_;
+
+    std::string badPRLabel_;
+    std::string badBranchLabel_;
+    std::string badIssueLabel_;
+    std::string fineLabel_;
+
+    namingRules namingPR_;
+    namingRules namingBranch_;
 
     void readStudents(std::ifstream & ifs);
     void readLabels(std::ifstream & ifs);
-
+    void readNamingRules(std::ifstream & ifs);
   };
 }
 
