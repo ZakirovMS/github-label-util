@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+
 namespace data
 {
   using Dict = std::pair< std::string, std::string >;
@@ -19,7 +20,7 @@ namespace data
   {
   public:
     void setRule(const std::string & rule);
-    const std::string & getRule();
+    const std::string & getRule() const;
   private:
     std::string rule_;
     //todo
@@ -29,20 +30,21 @@ namespace data
   {
   public:
     configCollector(std::ifstream & ifs);
-    const std::vector< Student > & getStudents();
-    const std::vector< Dict > & getLabLabels();
-    const std::string & getLabLabel(std::string lab);
-    const std::vector< Dict > & getGroupLabels();
-    const std::string & getBadPRLabel();
-    const std::string & getBadBranchLabel();
-    const std::string & getBadIssueLabel();
-    const std::string & getFineLabel();
-    const namingRule & getNamingPRRule();
-    const namingRule & getNamingBranchRule();
+    const std::vector< Student > & getStudents() const;
+    const std::vector< Dict > & getLabLabels() const;
+    size_t getLabCount() const;
+    const std::string & getLabLabel(std::string lab) const;
+    const std::string & getBadPRLabel() const;
+    const std::string & getBadBranchLabel() const;
+    const std::string & getBadIssueLabel() const;
+    const std::string & getFineLabel() const;
+    const namingRule & getNamingPRRule() const;
+    const namingRule & getNamingBranchRule() const;
   private:
     std::vector< Student > students_;
     std::vector< Dict > labLabels_;
-    std::vector< Dict > groupLabels_;
+
+    size_t labCount_;
 
     std::string badPRLabel_;
     std::string badBranchLabel_;
@@ -55,7 +57,7 @@ namespace data
     void readStudent(std::ifstream & ifs);
     void readSpecialLabel(std::ifstream & ifs);
     void readLabLabel(std::ifstream & ifs);
-    void readNamingRule(std::ifstream & ifs);
+    void readNamingRule(std::ifstream & ifs, data::namingRule & nr, char del = ',');
   };
 }
 

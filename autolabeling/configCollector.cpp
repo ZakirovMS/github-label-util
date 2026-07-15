@@ -1,43 +1,42 @@
 #include "configCollector.hpp"
 #include <limits>
-#include <iostream>
 
 data::configCollector::configCollector(std::ifstream & ifs)
 {
-  ifs.ignore(std::numeric_limits< size_t >::max(), '\n');
+  ifs.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+  ifs.ignore(std::numeric_limits< std::streamsize >::max(), ',');
   readStudent(ifs);
   readLabLabel(ifs);
   readSpecialLabel(ifs);
-  readNamingRule(ifs);
-  while (ifs)
+  readNamingRule(ifs, namingPR_);
+  readNamingRule(ifs, namingBranch_, '\n');
+  for (size_t i = 0; i < labCount_ - 1; ++i)
   {
+    ifs.ignore(std::numeric_limits< std::streamsize >::max(), ',');
     readStudent(ifs);
     readLabLabel(ifs);
-    ifs.ignore(std::numeric_limits< size_t >::max(), '\n');
-    if (labLabels_.back().first == "")
-    {
-      labLabels_.pop_back();
-      break;
-    }
+    ifs.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
 
-  while (ifs)
+  while (ifs.peek() != EOF)
   {
+    ifs.ignore(std::numeric_limits< std::streamsize >::max(), ',');
     readStudent(ifs);
+    ifs.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
 }
 
-const std::vector< data::Student > & data::configCollector::getStudents()
+const std::vector< data::Student > & data::configCollector::getStudents() const
 {
   return students_;
 }
 
-const std::vector< data::Dict > & data::configCollector::getLabLabels()
+const std::vector< data::Dict > & data::configCollector::getLabLabels() const
 {
   return labLabels_;
 }
 
-const std::string & data::configCollector::getLabLabel(std::string lab)
+const std::string & data::configCollector::getLabLabel(std::string lab) const
 {
   for (size_t i = 0; i < labLabels_.size(); ++i)
   {
@@ -50,39 +49,34 @@ const std::string & data::configCollector::getLabLabel(std::string lab)
   return badIssueLabel_;
 }
 
-const std::vector< data::Dict > & data::configCollector::getGroupLabels()
-{
-  return groupLabels_;
-}
-
-const std::string & data::configCollector::getBadPRLabel()
+const std::string & data::configCollector::getBadPRLabel() const
 {
   return badPRLabel_;
 }
 
-const std::string & data::configCollector::getBadBranchLabel()
+const std::string & data::configCollector::getBadBranchLabel() const
 {
   return badBranchLabel_;
 }
 
-const std::string & data::configCollector::getBadIssueLabel()
+const std::string & data::configCollector::getBadIssueLabel() const
 {
   return badIssueLabel_;
 }
 
-const std::string & data::configCollector::getFineLabel()
+const std::string & data::configCollector::getFineLabel() const
 {
   return fineLabel_;
 }
 
-const data::namingRule & data::configCollector::getNamingPRRule()
+const data::namingRule & data::configCollector::getNamingPRRule() const
 {
-
+  return namingPR_;
 }
 
-const data::namingRule & data::configCollector::getNamingBranchRule()
+const data::namingRule & data::configCollector::getNamingBranchRule() const
 {
-
+  return namingBranch_;
 }
 
 void data::configCollector::readStudent(std::ifstream & ifs)
@@ -97,6 +91,10 @@ void data::configCollector::readStudent(std::ifstream & ifs)
 
 void data::configCollector::readSpecialLabel(std::ifstream & ifs)
 {
+  std::string stub;
+  std::getline(ifs, stub, ',');
+  labCount_ = std::stoull(stub);
+
   std::getline(ifs, badPRLabel_, ',');
   std::getline(ifs, badBranchLabel_, ',');
   std::getline(ifs, badIssueLabel_, ',');
@@ -111,10 +109,10 @@ void data::configCollector::readLabLabel(std::ifstream & ifs)
   labLabels_.push_back(stub);
 }
 
-void readNamingRule(std::ifstream & ifs, data::namingRule & nr)
+void data::configCollector::readNamingRule(std::ifstream & ifs, data::namingRule & nr, char del)
 {
   std::string rule;
-  std::getline(ifs, rule, ',');
+  std::getline(ifs, rule, del);
   nr.setRule(rule);
 }
 
@@ -123,7 +121,7 @@ void data::namingRule::setRule(const std::string & rule)
   rule_ = rule;
 }
 
-const std::string & data::namingRule::getRule()
+const std::string & data::namingRule::getRule() const
 {
   return rule_;
 }
