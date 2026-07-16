@@ -31,6 +31,19 @@ const std::vector< data::Student > & data::configCollector::getStudents() const
   return students_;
 }
 
+const std::string & data::configCollector::getStudentsGrLabel(std::pair< std::string, std::string > realName, std::string githubName) const
+{
+  for (size_t i = 0; i < students_.size(); ++i)
+  {
+    if (students_[i].fullRealName == realName && students_[i].githubName == githubName)
+    {
+      return students_[i].groupLabel;
+    }
+  }
+
+  return badIssueLabel_;
+}
+
 const std::vector< data::Dict > & data::configCollector::getLabLabels() const
 {
   return labLabels_;
@@ -46,7 +59,7 @@ const std::string & data::configCollector::getLabLabel(std::string lab) const
     }
   }
 
-  return badIssueLabel_;
+  return badPRLabel_;
 }
 
 size_t data::configCollector::getLabCount() const

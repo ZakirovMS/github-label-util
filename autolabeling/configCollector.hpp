@@ -31,6 +31,7 @@ namespace data
   public:
     configCollector(std::ifstream & ifs);
     const std::vector< Student > & getStudents() const;
+    const std::string & getStudentsGrLabel(std::pair< std::string, std::string > realName, std::string githubName) const;
     const std::vector< Dict > & getLabLabels() const;
     const std::string & getLabLabel(std::string lab) const;
     size_t getLabCount() const;
